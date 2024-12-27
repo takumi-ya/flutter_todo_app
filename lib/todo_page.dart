@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/todo_item.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key, required this.title});
@@ -41,15 +42,7 @@ class _TodoPageState extends State<TodoPage> {
                   : ListView.builder(
                       itemCount: _todoList.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(_todoList[index]),
-                            trailing: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.delete),
-                            ),
-                          ),
-                        );
+                        return TodoItem(todoTitle: _todoList[index]);
                       },
                     ),
             )
