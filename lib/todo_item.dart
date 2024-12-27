@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class TodoItem extends StatelessWidget {
   final String todoTitle;
+  final Function() onDelete;
 
   const TodoItem({
     super.key,
     required this.todoTitle,
+    required this.onDelete,
   });
 
   @override
@@ -14,7 +16,7 @@ class TodoItem extends StatelessWidget {
       child: ListTile(
         title: Text(todoTitle),
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: onDelete,
           icon: const Icon(Icons.delete),
         ),
       ),

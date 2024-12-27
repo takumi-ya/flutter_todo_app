@@ -14,6 +14,19 @@ class _TodoPageState extends State<TodoPage> {
   final _todoList = <String>[];
   final _controller = TextEditingController();
 
+  void _addTodo(String todoName) {
+    setState(() {
+      _todoList.add(todoName);
+    });
+    _controller.clear();
+  }
+
+  void _deleteTodo(int index) {
+    setState(() {
+      _todoList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const gap = 20.0;
@@ -32,7 +45,9 @@ class _TodoPageState extends State<TodoPage> {
               child: TextField(
                 decoration: const InputDecoration(hintText: 'Enter your todo'),
                 controller: _controller,
-                onSubmitted: (value) {},
+                onSubmitted: (value) {
+                  _addTodo(value);
+                },
               ),
             ),
             const SizedBox(height: gap),
@@ -42,7 +57,12 @@ class _TodoPageState extends State<TodoPage> {
                   : ListView.builder(
                       itemCount: _todoList.length,
                       itemBuilder: (context, index) {
-                        return TodoItem(todoTitle: _todoList[index]);
+                        return TodoItem(
+                          todoTitle: _todoList[index],
+                          onDelete: () {
+                            _deleteTodo(index);
+                          },
+                        );
                       },
                     ),
             )
