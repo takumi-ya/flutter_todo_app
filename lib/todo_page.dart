@@ -32,6 +32,7 @@ class TodoPage extends ConsumerWidget {
                 controller: controller,
                 onSubmitted: (value) {
                   todoListNotifier.add(value);
+                  controller.clear();
                 },
               ),
             ),
