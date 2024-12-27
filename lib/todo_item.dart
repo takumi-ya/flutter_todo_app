@@ -14,7 +14,7 @@ class TodoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: Text(todoTitle),
+        title: Text(todoTitle == '' ? 'No title' : todoTitle),
         trailing: IconButton(
           onPressed: onDelete,
           icon: const Icon(Icons.delete),
