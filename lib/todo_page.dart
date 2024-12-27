@@ -1,40 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_todo_app/todo_item.dart';
+import 'package:flutter_todo_app/todo_list.dart';
 
-class TodoPage extends StatefulWidget {
+class TodoPage extends ConsumerWidget {
   const TodoPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<TodoPage> createState() => _TodoPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todoList = ref.watch(todoListProvider);
+    final todoListNotifier = ref.read(todoListProvider.notifier);
 
-class _TodoPageState extends State<TodoPage> {
-  final _todoList = <String>[];
-  final _controller = TextEditingController();
-
-  void _addTodo(String todoName) {
-    setState(() {
-      _todoList.add(todoName);
-    });
-    _controller.clear();
-  }
-
-  void _deleteTodo(int index) {
-    setState(() {
-      _todoList.removeAt(index);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    final controller = TextEditingController();
     const gap = 20.0;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
         child: Column(
@@ -44,23 +29,24 @@ class _TodoPageState extends State<TodoPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 decoration: const InputDecoration(hintText: 'Enter your todo'),
-                controller: _controller,
+                controller: controller,
                 onSubmitted: (value) {
-                  _addTodo(value);
+                  todoListNotifier.add(value);
+                  controller.clear();
                 },
               ),
             ),
             const SizedBox(height: gap),
             Expanded(
-              child: _todoList.isEmpty
+              child: todoList.isEmpty
                   ? const Text('No task added yet.')
                   : ListView.builder(
-                      itemCount: _todoList.length,
+                      itemCount: todoList.length,
                       itemBuilder: (context, index) {
                         return TodoItem(
-                          todoTitle: _todoList[index],
+                          todoTitle: todoList[index],
                           onDelete: () {
-                            _deleteTodo(index);
+                            todoListNotifier.remove(index);
                           },
                         );
                       },
