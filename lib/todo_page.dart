@@ -28,6 +28,12 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const gap = 20.0;
 
